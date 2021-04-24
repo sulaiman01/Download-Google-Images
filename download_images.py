@@ -3,6 +3,7 @@ from imutils import paths
 import argparse
 import requests
 import cv2
+import numpy 
 import os
 
 # construct the argument parse and parse the arguments
@@ -43,14 +44,14 @@ for url in rows:
 for imagePath in paths.list_images(args["output"]):
 	# initialize if the image should be deleted or not
 	delete = False
-
 	# try to load the image
 	try:
 		image = cv2.imread(imagePath)
-
 		# if the image is `None` then we could not properly load it
 		# from disk, so delete it
 		if image is None:
+			delete = True
+		elif image.shape[0] < 300 and image.shape[1] < 300 :
 			delete = True
 
 	# if OpenCV cannot load the image then the image is likely
